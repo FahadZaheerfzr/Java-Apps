@@ -9,25 +9,41 @@ public class OpeningGui {
 
     public void ShowOpeningGUI() {
 
+        Thread t = new Thread(() -> {
+            Home_Page.SimultaneousLoading();
+        });
+        t.start();
+
         OpeningJFrame.setTitle("Online Mart"); // Setting the title of JFrame
         OpeningJFrame.setResizable(false); // Turning off the resizing of JFrame
         OpeningJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminating the program if cross button is pressed
         OpeningJFrame.setSize(800, 800); // Setting the size of the JFrame
 
+
         // Creating an image icon to set the background image of the JFrame
-        ImageIcon Image_Background = new ImageIcon("Opening GUI.jpg");
         // Resizing the ImageBackground using a self defined function Resize
-        Image_Background = new ImageIcon(Resizing.ResizeImage(Image_Background,790,790));
+        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon("src\\Images\\Opening GUI.jpg"),
+                790,790);
 
 
-        JLabel label = new JLabel("", Image_Background, JLabel.CENTER); // A JLabel is used to add image into it
-        label.setBounds(0, 0, 800, 800); // Setting the bounds of JLabel
+        // Setting the background of JFrame using self defined function
+        JLabel label = GUISetup.setBackground(Image_Background,800,800);
+
 
         OpeningJFrame.add(label); // Adding the JLabel in JFrame
         OpeningJFrame.setLocationRelativeTo(null); // Making sure the JFrame is visible in the center of the screen
         OpeningJFrame.setVisible(true); // Setting the JFrame visible
 
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        OpeningJFrame.setVisible(false);
     }
+
 
     public static void main(String[] args) {
         OpeningGui O1 = new OpeningGui();
