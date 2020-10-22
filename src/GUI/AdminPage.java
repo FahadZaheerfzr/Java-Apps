@@ -11,10 +11,11 @@ public class AdminPage {
 
 
     public JLabel AdminLabel() {
-
-        // Creating an image icon to set the background image of the JFrame and
-        // Resizing the ImageBackground using a self defined function Resize
-        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon("src\\Images\\MarketPlace.jpg"),
+        /*
+         * Creating an image icon to set the background image of the JFrame and
+         * Resizing the ImageBackground using a self defined function Resize
+         */
+        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon(getClass().getResource("/Images/china_market_lights.jpg")),
                 790, 790);
 
         // Setting the background of JFrame using self defined function
@@ -23,7 +24,7 @@ public class AdminPage {
         Font f = new Font("Times New Roman", Font.BOLD, 48);
         JLabel text = new JLabel("Welcome to Market Place!");
         text.setFont(f);
-        text.setForeground(new Color(90, 25, 0));
+        text.setForeground(Color.yellow);
         text.setBounds(120, 40, 650, 70);
 
         JPanel form = new JPanel();
@@ -35,7 +36,7 @@ public class AdminPage {
 
         JLabel Name_Prompt = new JLabel("Username");
         Name_Prompt.setBounds(80, 150, 180, 30);
-        Name_Prompt.setForeground(new Color(210, 180, 140));
+        Name_Prompt.setForeground(Color.yellow);
         Name_Prompt.setFont(f1);
         form.add(Name_Prompt);
 
@@ -46,7 +47,7 @@ public class AdminPage {
 
         JLabel Password_Prompt = new JLabel("Password");
         Password_Prompt.setBounds(80, 200, 180, 30);
-        Password_Prompt.setForeground(new Color(210, 180, 140));
+        Password_Prompt.setForeground(Color.yellow);
         Password_Prompt.setFont(f1);
         form.add(Password_Prompt);
 

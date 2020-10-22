@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class GUISetup {
     public static JLabel label;
+    public static JLabel label1;
+    public static ImageIcon i;
 
 
     /**

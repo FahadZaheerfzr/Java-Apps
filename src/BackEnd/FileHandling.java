@@ -42,7 +42,7 @@ public class FileHandling {
             fileIn.close();
         } catch (IOException i) {
             // Looking for exception trace
-            System.out.println("Shop class not found");
+            System.out.println("Shop file not there");
         } catch (ClassNotFoundException c) {
             // Looking for exception trace
             System.out.println("Shop class not found");
@@ -64,13 +64,16 @@ public class FileHandling {
         // Going through all the files in the folder
         for(File file: folder.listFiles()){
             // If the file path name endsWith .ser extension pass that file to another method
-            if (file.getAbsolutePath().endsWith(".ser"))
+            if (file.getAbsolutePath().endsWith(".ser")) {
                 // Adding the return Shop from the method to the Instance Variable
                 ShopList.add(loadFile(file));
+
+            }
         }
         // Returning the instance variable
         return ShopList;
     }
+
 
     // This method loads a single file
     public static Shop loadFile(File f){

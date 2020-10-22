@@ -9,10 +9,7 @@ public class OpeningGui {
 
     public void ShowOpeningGUI() {
 
-        Thread t = new Thread(() -> {
-            Home_Page.SimultaneousLoading();
-        });
-        t.start();
+
 
         OpeningJFrame.setTitle("Online Mart"); // Setting the title of JFrame
         OpeningJFrame.setResizable(false); // Turning off the resizing of JFrame
@@ -22,7 +19,7 @@ public class OpeningGui {
 
         // Creating an image icon to set the background image of the JFrame
         // Resizing the ImageBackground using a self defined function Resize
-        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon("src\\Images\\Opening GUI.jpg"),
+        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon(getClass().getResource("/Images/aesthetic.jpg")),
                 790,790);
 
 

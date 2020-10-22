@@ -4,7 +4,6 @@ import BackEnd.FileHandling;
 import Validation.InputIncorrectException;
 import Validation.MissingValueExceptions;
 import Validation.Validator;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,11 +19,6 @@ public class CreatingShop {
 
     public JLabel CreateShop() {
 
-        for(BackEnd.Shop s : Home_Page.MarketPlace){
-            System.out.println(s.getUsername());
-            System.out.println(s.getPassword());
-            s.DisplayItems();
-        }
         JLabel label = GUISetup.label;
 
         Font f = new Font("Times New Roman", Font.BOLD, 48);
@@ -92,6 +86,7 @@ public class CreatingShop {
 
     public void CustomizingShop(BackEnd.Shop s) {
         Font f2 = new Font("Georgia", Font.ITALIC | Font.BOLD, 25);
+        Font f1 = new Font("Times New Roman", Font.BOLD, 25);
         Shop.setTitle("Shop Customization"); // Setting the title of JFrame
         Shop.setResizable(false); // Turning off the resizing of JFrame
         Shop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminating the program if cross button is pressed
@@ -100,12 +95,27 @@ public class CreatingShop {
 
         // Creating an image icon to set the background image of the JFrame
         // Resizing the ImageBackground using a self defined function Resize
-        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon("src\\Images\\StoreInitialize.jpg"),
+        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon(getClass().getResource("/Images/StoreInitialize.jpg")),
                 790, 790);
 
 
         // Setting the background of JFrame using self defined function
         JLabel label = GUISetup.setBackground(Image_Background, 800, 800);
+
+        JButton done = new JButton("Done");
+        done.setBackground(new Color(220,220,220));
+        done.setBounds(600, 700, 150, 50);
+        done.setFont(f1);
+        done.setForeground(new Color(10,10,10));
+        done.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Shop.dispose();
+                Home_Page h = new Home_Page();
+                h.ShowHome_Page();
+            }
+        });
+        label.add(done);
 
         JButton Name = new JButton("Set Name");
         Name.setFont(f2);
@@ -308,7 +318,7 @@ public class CreatingShop {
                             SaveJFrame.setVisible(false);
                             t = new Thread(()->FileHandling.SaveShopData(s,s.getUsername()));
                             t.start();
-                        }catch (InputIncorrectException inputIncorrectException){
+                        }catch (InputIncorrectException | NumberFormatException inputIncorrectException){
                             JOptionPane.showMessageDialog(null,"Invalid Inputs");
                         }
                     }
@@ -498,7 +508,6 @@ public class CreatingShop {
                         }catch (InputIncorrectException inputIncorrectException){
                             JOptionPane.showMessageDialog(null,"Invalid Balance Entered");
                         }
-                        System.out.println(s.getBalance());
                     }
                 });
 

@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Home_Page {
+public class Home_Page extends OpeningGui{
 
     // Class Attributes
     protected JFrame HomeJFrame = new JFrame(); // A JFrame so it can be accessed anywhere in the file
@@ -25,19 +25,26 @@ public class Home_Page {
 
         // Creating an image icon to set the background image of the JFrame and
         // Resizing the ImageBackground using a self defined function Resize
-        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon("src\\Images\\CreateStore.jpg"),
+        ImageIcon Image_Background = GUISetup.ResizeImage(new ImageIcon(Home_Page.class.getResource("/Images/CreateStore.jpg")),
                 790, 790);
-        // Setting the background of JFrame using self defined function
 
+
+        // Setting the background of JFrame using self defined function
         // Initializing a label sp it doesn't take time to load.
         GUISetup.label = GUISetup.setBackground(Image_Background, 800, 800);
+
+        GUISetup.i = new ImageIcon(CartPage.class.getResource("/Images/Loader.gif"));
+
 
         File f = new File(System.getProperty("user.dir"));
         MarketPlace = FileHandling.loadAllFilesinFolder(f);
     }
 
     public void ShowHome_Page() {
-
+        Thread t = new Thread(() -> {
+            SimultaneousLoading();
+        });
+        t.start();
 
         HomeJFrame.setTitle("Online Mart"); // Setting the title of JFrame
         HomeJFrame.setResizable(false); // Turning off the resizing of JFrame
@@ -47,20 +54,20 @@ public class Home_Page {
         Panel.setSize(800, 800);
 
         // Creating an image icon to set the background image of the JFrame
-        ImageIcon Image_Background = new ImageIcon("src\\Images\\HomePage.jpg");
+        ImageIcon Image_Background = new ImageIcon(getClass().getResource("/Images/dock-street-market.jpg"));
         // Resizing the ImageBackground using a self defined function Resize
         Image_Background = GUISetup.ResizeImage(Image_Background, 790, 790);
 
         // Creating font for the buttons
-        Font F = new Font("Times New Roman", Font.BOLD, 24);
+        Font F = new Font("Times New Roman", Font.BOLD|Font.ITALIC, 30);
 
 
-        // Creating another image icon and also resizing it to set the icon of the Admin Button
-        ImageIcon A = GUISetup.ResizeImage(new ImageIcon("src\\Images\\AdminIcon.jpg"), 100, 100);
+        // Creating another image icon and also resizing it to set the icon of the Admin ButtonforName
+        ImageIcon A = GUISetup.ResizeImage(new ImageIcon(getClass().getResource("/Images/AdminIcon.jpg")), 100, 100);
         JButton Admin = new JButton("Admin", A); // An admin button with icon
-        Admin.setBackground(Color.GRAY); // Setting the button Background color
+        Admin.setBackground(Color.BLACK); // Setting the button Background color
         Admin.setFont(F); // Setting Custom Font
-        Admin.setForeground(new Color(220, 150, 0));
+        Admin.setForeground(new Color(158,199,252));
         // Setting the position of the text
         Admin.setVerticalTextPosition(AbstractButton.CENTER);
         Admin.setHorizontalTextPosition(AbstractButton.LEADING);
@@ -68,17 +75,46 @@ public class Home_Page {
         Admin.setBounds(260, 200, 300, 100); // Setting the bounds of the button
 
 
-        // Creating another image icon to set the icon of the Customer Button
-        ImageIcon C = GUISetup.ResizeImage(new ImageIcon("src\\Images\\CustomerIcon.png"), 100, 100);
+        // Creating another image icon to set the icon of the Customer ButtonforName
+        ImageIcon C = GUISetup.ResizeImage(new ImageIcon(getClass().getResource("/Images/CustomerIcon.png")), 100, 100);
         JButton Customer = new JButton("Customer", C); // A customer button with icon
-        Customer.setBackground(Color.GRAY); // Setting the button Background color
+        Customer.setBackground(Color.black); // Setting the button Background color
         Customer.setFont(F); // Setting Custom Font
-        Customer.setForeground(new Color(0, 0, 155)); // Setting the color of the font
+        Customer.setForeground(new Color(158,199,252)); // Setting the color of the font
         // Setting the position of the text
         Customer.setVerticalTextPosition(AbstractButton.CENTER);
         Customer.setHorizontalTextPosition(AbstractButton.LEADING);
         Customer.setIconTextGap(20); // A gap bw icon and text
         Customer.setBounds(260, 400, 300, 100); // Setting the bounds of the button
+        Customer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel p = new JPanel();
+                try {
+                    JLabel s = CustomerInterface.CustomerLabel();
+                    JButton Back = new JButton("Back");
+                    Back.setBounds(70, 740, 150, 30);
+                    Font f1 = new Font("Times New Roman", Font.BOLD, 18);
+                    Back.setFont(f1);
+                    Back.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            HomeJFrame.setContentPane(Panel);
+                            HomeJFrame.pack();
+
+                        }
+                    });
+                    s.add(Back);
+                    p.add(s);
+                    HomeJFrame.setContentPane(p);
+                    HomeJFrame.pack();
+                } catch (NullPointerException nullPointerException){
+                    JOptionPane.showMessageDialog(null,"No Shop Exist");
+                }
+
+
+            }
+        });
 
 
         // Setting the background of JFrame using self defined function
@@ -105,7 +141,7 @@ public class Home_Page {
                 JButton Login = new JButton("Login");
                 Login.setBounds(450, 500, 180, 60);
                 Login.setFont(f1);
-                Login.setForeground(new Color(210, 180, 140));
+                Login.setForeground(Color.yellow);
                 Login.setBackground(new Color(0, 0, 0));
                 frame2.add(Login);
                 Login.addActionListener(new ActionListener() {
@@ -117,9 +153,9 @@ public class Home_Page {
                         try {
                             Validator.UsernameCheck(TemporaryUsername.getText());
                             Validator.PasswordValidator(TemporaryPassword.getText());
-                            Validator.ShopVerification(TemporaryUsername.getText(),TemporaryPassword.getText());
+                            Shop temp = Validator.ShopVerification(TemporaryUsername.getText(),TemporaryPassword.getText());
                             JLabel labelx;
-                            labelx = ManageShop.ManageLabel();
+                            labelx = ManageShop.ManageLabel(temp);
 
                             JPanel panelx = new JPanel();
                             panelx.add(labelx);
@@ -133,7 +169,8 @@ public class Home_Page {
                     }
                 });
                 JButton Back = new JButton("Back");
-                Back.setBounds(110, 680, 120, 60);
+                Back.setBounds(70, 680, 200, 55);
+                Back.setFont(f1);
                 Back.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -143,7 +180,8 @@ public class Home_Page {
                     }
                 });
                 JButton NewShop = new JButton("Create Store");
-                NewShop.setBounds(610, 680, 120, 60);
+                NewShop.setBounds(500, 680, 200, 55);
+                NewShop.setFont(f1);
                 NewShop.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -152,10 +190,12 @@ public class Home_Page {
 
                         JLabel label1 = c.CreateShop();
 
+                        Font f1 = new Font("Times New Roman", Font.BOLD, 18);
                         JButton Back = new JButton("Back");
                         Back.setBounds(160, 500, 120, 60);
                         Back.setBackground(Color.black);
                         Back.setForeground(new Color(255, 255, 0));
+                        Back.setFont(f1);
                         Back.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -169,6 +209,7 @@ public class Home_Page {
                         SignUP.setBounds(510, 500, 120, 60);
                         SignUP.setBackground(Color.black);
                         SignUP.setForeground(new Color(255, 255, 0));
+                        SignUP.setFont(f1);
                         SignUP.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -220,6 +261,4 @@ public class Home_Page {
         });
 
     }
-
-
 }

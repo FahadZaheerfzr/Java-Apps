@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Item implements Serializable {
     // Attributes of item. Names are self explanatory
     private String ItemName;
-    private float ItemPrice;
+    private double ItemPrice;
     private int ItemQuantity;
 
     // Constructor to initialize a method name
@@ -16,7 +16,7 @@ public class Item implements Serializable {
     }
 
     // Getter for Item Price
-    public float getItemPrice() {
+    public double getItemPrice() {
         return ItemPrice;
     }
 
@@ -49,6 +49,9 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         // Displaying the attributes of item in custom format
-        return getItemName() + "\t" + getItemPrice() + "\t" + getItemQuantity() + "\n";
+        return "Item Name: " + getItemName() +"\n" +
+                "Item Price: " + String.format("%.2f",getItemPrice()) + "\n"+
+                "Item Quantity: " + getItemQuantity() + "\n"+
+                "\n\n";
     }
 }

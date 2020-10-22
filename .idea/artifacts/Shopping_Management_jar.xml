@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Shopping Management:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Shopping_Management_jar</output-path>
+    <root id="archive" name="Shopping Management.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        <element id="module-source" name="Shopping Management" />
+      </element>
+      <element id="module-output" name="Shopping Management" />
+    </root>
+  </artifact>
+</component>
